@@ -1,4 +1,4 @@
-ARG BUILD_FROM=ghcr.io/hassio-addons/debian-base/amd64:6.2.7
+ARG BUILD_FROM=ghcr.io/hassio-addons/debian-base/amd64:9.3.0
 # hadolint ignore=DL3006
 FROM ${BUILD_FROM}
 
@@ -7,25 +7,23 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Setup base system
 ARG BUILD_ARCH=amd64
-ARG INFLUXDB_VERSION="2.7.1"
-ARG INFLUXCLI_VERSION="2.7.3"
-ARG TRAEFIK_VERSION="2.10.4"
+ARG INFLUXDB_VERSION="2.9.1"
+ARG INFLUXCLI_VERSION="2.8.0"
+ARG TRAEFIK_VERSION="2.11.57"
 
 RUN \
-    apt-get update \
+    apt-get -o Acquire::Check-Valid-Until=false update \
     && apt-get install -y --no-install-recommends \
-        luarocks=2.4.2+dfsg-1.1 \
-        procps=2:3.3.17-5 \
+        luarocks \
+        procps \
     \
     && luarocks install lua-resty-http 0.15-0 \
     \
     && ARCH="${BUILD_ARCH}" \
     && if [ "${BUILD_ARCH}" = "aarch64" ]; then ARCH="arm64"; fi \
-    && if [ "${BUILD_ARCH}" = "armv7" ]; then ARCH="armhf"; fi \
     \
-
     && curl -J -L -o /tmp/influxdb.deb \
-        "https://dl.influxdata.com/influxdb/releases/influxdb2-${INFLUXDB_VERSION}-${ARCH}.deb" \
+        "https://dl.influxdata.com/influxdb/releases/influxdb2_${INFLUXDB_VERSION}-1_${ARCH}.deb" \
     \
     && curl -J -L -o /tmp/influxcli.tar.gz \
         "https://dl.influxdata.com/influxdb/releases/influxdb2-client-${INFLUXCLI_VERSION}-linux-${ARCH}.tar.gz" \
@@ -79,17 +77,4 @@ LABEL \
     io.hass.name="${BUILD_NAME}" \
     io.hass.description="${BUILD_DESCRIPTION}" \
     io.hass.arch="${BUILD_ARCH}" \
-    io.hass.type="addon" \
-    io.hass.version=${BUILD_VERSION} \
-    maintainer="Daniel Oldberg <contact@danieloldberg.se>" \
-    org.opencontainers.image.title="${BUILD_NAME}" \
-    org.opencontainers.image.description="${BUILD_DESCRIPTION}" \
-    org.opencontainers.image.vendor="" \
-    org.opencontainers.image.authors="Daniel Oldberg <contact@danieloldberg.se>" \
-    org.opencontainers.image.licenses="MIT" \
-    org.opencontainers.image.url="https://github.com/danieloldberg/addon-influxdbv2" \
-    org.opencontainers.image.source="https://github.com/${BUILD_REPOSITORY}" \
-    org.opencontainers.image.documentation="https://github.com/${BUILD_REPOSITORY}/blob/main/README.md" \
-    org.opencontainers.image.created=${BUILD_DATE} \
-    org.opencontainers.image.revision=${BUILD_REF} \
-    org.opencontainers.image.version=${BUILD_VERSION}
+    io.hass.type="addon"
