@@ -1,6 +1,6 @@
 ---
 name: InfluxDB v2
-version: v0.0.4
+version: v0.0.4-trixie1
 slug: influxdbv2
 description: Scalable datastore for metrics, events, and real-time analytics
 url: https://github.com/danieloldberg/addon-influxdbv2/
@@ -14,8 +14,6 @@ hassio_api: true
 arch:
   - aarch64
   - amd64
-  - armv7
-  - i386
 init: false
 map:
   - share:rw
