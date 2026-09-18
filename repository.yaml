@@ -1,4 +1,4 @@
 # https://developers.home-assistant.io/docs/add-ons/repository#repository-configuration
-name: Influxdb V2 Repository
-url: 'https://github.com/danieloldberg/addon-influxdbv2/'
-maintainer: Daniel Oldberg <contact@danieloldberg.se>
+name: InfluxDB V2 Repository (fork amb fix de build)
+url: 'https://github.com/beringar/addon-influxdbv2/'
+maintainer: Daniel Oldberg <contact@danieloldberg.se> (fork mantingut per Beringar)
